@@ -39,7 +39,30 @@ export const OrdersScreen = ({ navigation }: any) => {
               <Typography variant="bodyLarge" color={COLORS.primary}>Out for Delivery</Typography>
             </View>
             <Typography variant="bodySecondary">Order ID: #IG-982341</Typography>
-            <Typography variant="body" style={styles.activeItems}>2 items • ₹553</Typography>
+            
+            {/* Active Order Stepper */}
+            <View style={styles.activeStepper}>
+              <View style={styles.stepperPoint}>
+                <View style={[styles.dot, styles.dotActive]} />
+                <Typography variant="caption" color={COLORS.success}>Placed</Typography>
+              </View>
+              <View style={[styles.stepLine, styles.stepLineActive]} />
+              <View style={styles.stepperPoint}>
+                <View style={[styles.dot, styles.dotActive]} />
+                <Typography variant="caption" color={COLORS.success}>Packed</Typography>
+              </View>
+              <View style={[styles.stepLine, styles.stepLineActive]} />
+              <View style={styles.stepperPoint}>
+                <View style={styles.dotPulse} />
+                <Typography variant="caption" color={COLORS.primary}>Out</Typography>
+              </View>
+              <View style={styles.stepLine} />
+              <View style={styles.stepperPoint}>
+                <View style={styles.dot} />
+                <Typography variant="caption" color={COLORS.textSecondary}>Delivered</Typography>
+              </View>
+            </View>
+
             <View style={styles.trackLink}>
               <Typography color={COLORS.primary} style={{ fontWeight: '700' }}>Track Order</Typography>
               <ChevronRight size={16} color={COLORS.primary} />
@@ -60,10 +83,15 @@ export const OrdersScreen = ({ navigation }: any) => {
               <Typography variant="bodySecondary" numberOfLines={1}>{order.items}</Typography>
               <View style={styles.orderFooter}>
                 <Typography variant="h3">₹{order.total}</Typography>
-                <TouchableOpacity style={styles.reorderBtn}>
-                  <RefreshCcw size={14} color={COLORS.primary} />
-                  <Typography variant="caption" color={COLORS.primary} style={styles.reorderText}>REORDER</Typography>
-                </TouchableOpacity>
+                <View style={styles.footerBtns}>
+                  <TouchableOpacity style={styles.rateBtn}>
+                    <Typography variant="caption" color={COLORS.text}>Rate Order</Typography>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.reorderBtn}>
+                    <RefreshCcw size={14} color={COLORS.primary} />
+                    <Typography variant="caption" color={COLORS.primary} style={styles.reorderText}>REORDER</Typography>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           ))}
@@ -103,13 +131,48 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     marginRight: 8,
   },
-  activeItems: {
-    marginTop: 8,
-    marginBottom: 12,
+  activeStepper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: SPACING.lg,
+    paddingHorizontal: SPACING.sm,
+  },
+  stepperPoint: {
+    alignItems: 'center',
+    width: 50,
+  },
+  dot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: COLORS.gray300,
+    marginBottom: 4,
+  },
+  dotActive: {
+    backgroundColor: COLORS.success,
+  },
+  dotPulse: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: COLORS.primary,
+    borderWidth: 2,
+    borderColor: '#FFF8F1',
+    marginBottom: 4,
+  },
+  stepLine: {
+    flex: 1,
+    height: 2,
+    backgroundColor: COLORS.gray200,
+    marginBottom: 16,
+  },
+  stepLineActive: {
+    backgroundColor: COLORS.success,
   },
   trackLink: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: SPACING.sm,
   },
   orderCard: {
     backgroundColor: COLORS.white,
@@ -139,6 +202,19 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     borderTopWidth: 1,
     borderTopColor: COLORS.gray100,
+  },
+  footerBtns: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  rateBtn: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: RADIUS.md,
+    backgroundColor: COLORS.surface,
+    marginRight: SPACING.sm,
+    borderWidth: 1,
+    borderColor: COLORS.gray200,
   },
   reorderBtn: {
     flexDirection: 'row',

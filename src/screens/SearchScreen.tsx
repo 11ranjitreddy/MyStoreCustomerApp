@@ -108,10 +108,10 @@ export const SearchScreen = ({ navigation }: any) => {
       ) : (
         <View style={styles.resultsContainer}>
           <View style={styles.filterBar}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {['All', 'Price Low-High', 'Price High-Low', 'In Stock'].map((filter) => (
-                <TouchableOpacity key={filter} style={styles.filterChip}>
-                  <Typography variant="caption">{filter}</Typography>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterScroll}>
+              {['All', 'Price Low-High', 'Price High-Low', 'In Stock', 'Categories'].map((filter, index) => (
+                <TouchableOpacity key={filter} style={[styles.filterChip, index === 0 && styles.activeFilterChip]}>
+                  <Typography variant="caption" color={index === 0 ? COLORS.white : COLORS.text}>{filter}</Typography>
                 </TouchableOpacity>
               ))}
             </ScrollView>
@@ -122,9 +122,15 @@ export const SearchScreen = ({ navigation }: any) => {
             numColumns={2}
             renderItem={renderProductItem}
             contentContainerStyle={styles.resultList}
+            showsVerticalScrollIndicator={false}
             ListEmptyComponent={() => (
                <View style={styles.emptyState}>
-                 <Typography variant="bodyLarge" color={COLORS.textSecondary}>No results found for "{query}"</Typography>
+                 <Image 
+                   source={{ uri: 'https://cdn-icons-png.flaticon.com/512/6134/6134065.png' }} 
+                   style={styles.emptyImage} 
+                 />
+                 <Typography variant="h3" style={{ marginTop: 16 }}>No results for "{query}"</Typography>
+                 <Typography variant="bodySecondary" style={{ marginTop: 8 }}>Try searching for milk, mango or bread</Typography>
                </View>
             )}
           />
@@ -188,17 +194,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   filterBar: {
-    padding: SPACING.md,
+    paddingVertical: SPACING.md,
     backgroundColor: COLORS.white,
+  },
+  filterScroll: {
+    paddingHorizontal: SPACING.md,
   },
   filterChip: {
     paddingHorizontal: SPACING.md,
-    paddingVertical: 6,
+    paddingVertical: 8,
     borderRadius: RADIUS.pill,
     backgroundColor: COLORS.surface,
     marginRight: SPACING.sm,
     borderWidth: 1,
     borderColor: COLORS.gray200,
+  },
+  activeFilterChip: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primary,
   },
   resultList: {
     padding: SPACING.sm,
@@ -233,7 +246,13 @@ const styles = StyleSheet.create({
     borderRadius: RADIUS.md,
   },
   emptyState: {
-    marginTop: 100,
+    marginTop: 80,
     alignItems: 'center',
+    paddingHorizontal: SPACING.xl,
+  },
+  emptyImage: {
+    width: 150,
+    height: 150,
+    opacity: 0.8,
   },
 });
